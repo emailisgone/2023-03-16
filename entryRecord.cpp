@@ -3,7 +3,7 @@
 int EntryRecord::recordCount = 0;
 
 // -----------------------------------------------------ENTRY RECORD----------------------------------------------------------
-EntryRecord::EntryRecord(int id, std::string name = "NULL", bool aPermStatus = false, Time entry = Time(0), Time exit = Time(0)){
+EntryRecord::EntryRecord(int id, std::string name = "NULL", bool aPermStatus = false, Time entry = Time(), Time exit = Time()){
     ++recordCount;
     this->setPersonID(id);
     this->setPersonName(name);
@@ -65,14 +65,34 @@ std::string EntryRecord::getPersonTimeOfEntry(timeFormat format){
 
 std::string EntryRecord::getPersonTimeOfExit(timeFormat format){
     switch(format){
-    case LT:
-        return timeOfExit.showTimeLT();
-        break;
     case UK:
         return timeOfExit.showTimeUK();
         break;
     default:
         return timeOfExit.showTimeLT();
+        break;
+    }
+}
+
+std::string EntryRecord::workTime(timeFormat format){
+    Time result;
+    if(this->timeOfExit.getSeconds()>this->timeOfEntry.getSeconds()){
+        this->timeOfEntry.setMinutes(this->timeOfEntry.getMinutes()-1);
+        this->timeOfEntry.setSeconds(this->timeOfEntry.getSeconds()+60);
+    }
+    result.setSeconds(this->timeOfEntry.getSeconds()-this->timeOfExit.getSeconds());
+    if(this->timeOfExit.getMinutes()>this->timeOfEntry.getMinutes()){
+        this->timeOfEntry.setHours(this->timeOfEntry.getHours()-1);
+        this->timeOfEntry.setMinutes(this->timeOfEntry.getMinutes()+60);
+    }
+    result.setMinutes(this->timeOfEntry.getMinutes()-this->timeOfExit.getMinutes());
+    result.setHours(this->timeOfEntry.getHours()-this->timeOfExit.getHours());
+    switch (format){
+    case UK:
+        return result.showTimeUK();
+        break;
+    default:
+        return result.showTimeLT();
         break;
     }
 }

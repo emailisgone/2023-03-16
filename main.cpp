@@ -20,10 +20,8 @@ int main(){
     }
     */
 
-    /*Time time(22, 11, 10);
-    time.setHours(25);*/
-    
-
+    Time time(22, 11, 10);
+    time.setHours(25);
 
 
     return 0;

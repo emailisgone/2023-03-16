@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <ctime>
 #include "time.cpp"
 
 class EntryRecord{
@@ -33,6 +34,7 @@ class EntryRecord{
     std::string getPersonTimeOfExit(timeFormat format);
 
     void pushTimeOfEntry(int seconds);
+    std::string workTime(timeFormat format);
 
     static int getTotalRecordCount(){
         return recordCount;
