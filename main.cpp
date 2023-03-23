@@ -1,14 +1,14 @@
-#include "entryRecord.cpp"
+//#include "entryRecord.cpp"
+#include "entryRecordContainer.cpp"
 
 int main(){
     // Nr. 1
     /*std::vector<Time> timeArray;
     int n = 0;
-    while(n!=3){
+    while(n!=2){
         int second, minute, hour;
         std::cin>>second>>minute>>hour;
-        try
-        {
+        try{
             timeArray.push_back(Time(hour, minute, second));
         }
         catch(const std::exception& e)
@@ -17,11 +17,15 @@ int main(){
             --n;
         }
         ++n;
+    }*/
+    
+    EntryRecordContainer records;
+    try{
+        records.exportRecords("log");
     }
-    */
-
-    Time time(22, 11, 10);
-    time.setHours(25);
+    catch(const std::exception& e){
+        std::cerr << e.what() << '\n';
+    }
 
 
     return 0;

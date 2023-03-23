@@ -8,7 +8,7 @@
 #include <ctime>
 #include "time.cpp"
 
-class EntryRecord{
+class EntryRecord {
     private:
     static int recordCount;
     int personID;
