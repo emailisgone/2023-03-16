@@ -27,18 +27,21 @@ class EntryRecord {
     void setPersonTimeOfEntry(Time time);
     void setPersonTimeOfExit(Time time);
 
-    int getPersonId();
-    std::string getPersonName();
-    bool getPersonAdminPermission();
-    std::string getPersonTimeOfEntry(timeFormat format);
-    std::string getPersonTimeOfExit(timeFormat format);
+    int getPersonId() const;
+    std::string getPersonName() const;
+    bool getPersonAdminPermission() const;
+    std::string getPersonTimeOfEntry(timeFormat format) const;
+    std::string getPersonTimeOfExit(timeFormat format) const;
 
     void pushTimeOfEntry(int seconds);
+    void pushTimeOfExit(int seconds);
     std::string workTime(timeFormat format);
 
     static int getTotalRecordCount(){
         return recordCount;
     }
+
+    friend std::ostream& operator<<(std::ostream& os, const EntryRecord& record);
 };
 
 

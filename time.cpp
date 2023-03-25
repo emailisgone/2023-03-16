@@ -3,33 +3,46 @@
 // 4 mod 2 = 0, time class
 
 void Time::setHours(int number){
-    if(number>23 || number<0) throw std::invalid_argument("Invalid number of hours inputted.");
-    this->hours = number;
+    if(number<0) throw std::invalid_argument("Invalid number of hours inputted.");
+    if(number>23){
+        number%=24;
+    }
+    hours = number;
 }
 
 void Time::setMinutes(int number){    
-    if(number>59 || number<0) throw std::invalid_argument("Invalid number of minutes inputted.");
-    this->minutes = number;
+    if(number<0) throw std::invalid_argument("Invalid number of minutes inputted.");
+    if(number>59){
+        int hours = number/60;
+        setHours(getHours()+hours);
+        number%=60;
+    }
+    minutes = number;
 }
 
 void Time::setSeconds(int number){
-    if(number>59 || number<0) throw std::invalid_argument("Invalid number of seconds inputted.");
-    this->seconds = number;
+    if(number<0) throw std::invalid_argument("Invalid number of seconds inputted.");
+    if(number>59){
+        int minutes = number/60;
+        setMinutes(getMinutes()+minutes);
+        number%=60;
+    }
+    seconds = number;
 }
 
-int Time::getHours(){
+int Time::getHours() const{
     return this->hours;
 }
 
-int Time::getMinutes(){
+int Time::getMinutes() const{
     return this->minutes;
 }
 
-int Time::getSeconds(){
+int Time::getSeconds() const{
     return seconds;
 }
 
-std::string Time::showTimeLT(){
+std::string Time::showTimeLT() const{
     std::string res, hr, min, sec;
     hr = std::to_string(hours);
     min = std::to_string(minutes);
@@ -47,7 +60,7 @@ std::string Time::showTimeLT(){
     return res;
 }
 
-std::string Time::showTimeUK(){
+std::string Time::showTimeUK() const{
     std::string res, min;
     min = std::to_string(minutes);
     if(minutes>=0 && minutes<=9){
@@ -77,6 +90,111 @@ void Time::addSeconds(int number){
     if(hours>=24){
         hours -= (hours/24)*24;
     }
+}
+
+Time operator+(const Time& time1, const Time& time2){
+    Time newTime;
+    newTime.setSeconds(time1.getSeconds()+time2.getSeconds());
+    newTime.setMinutes(time1.getMinutes()+time2.getMinutes());
+    newTime.setHours(time1.getHours()+time2.getHours());
+    return newTime;
+}
+
+Time operator+(const Time& time, const int& seconds){
+    Time newTime;
+    newTime.setSeconds(time.getSeconds()+seconds);
+    return newTime;
+}
+
+Time operator+(const int& seconds, const Time& time){
+    Time newTime;
+    newTime.setSeconds(seconds+time.getSeconds());
+    return newTime;
+}
+
+Time& Time::operator+=(const Time& time){
+    this->setSeconds(this->getSeconds()+time.getSeconds());
+    this->setMinutes(this->getMinutes()+time.getMinutes());
+    this->setHours(this->getHours()+time.getHours());
+    return *this;
+}
+
+Time& Time::operator+=(const int& seconds){
+    this->setSeconds(this->getSeconds()+seconds);
+    return *this;
+}
+
+bool operator<(const Time& lhs, const Time& rhs){
+    int lhsSeconds = lhs.getHours()*3600 + lhs.getMinutes()*60 + lhs.getSeconds(),
+    rhsSeconds = rhs.getHours()*3600 + rhs.getMinutes()*60 + rhs.getSeconds();
+
+    return lhsSeconds < rhsSeconds;
+}
+
+bool operator>(const Time& lhs, const Time& rhs){
+    return rhs < lhs;
+}
+
+bool operator<=(const Time& lhs, const Time& rhs){
+    return !(lhs > rhs);
+}
+
+bool operator>=(const Time& lhs, const Time& rhs){
+    return !(lhs < rhs);
+}
+
+bool operator==(const Time& lhs, const Time& rhs){
+    int lhsSeconds = lhs.getHours()*3600 + lhs.getMinutes()*60 + lhs.getSeconds(),
+    rhsSeconds = rhs.getHours()*3600 + rhs.getMinutes()*60 + rhs.getSeconds();
+
+    return lhsSeconds == rhsSeconds;
+}
+
+bool operator!=(const Time& lhs, const Time& rhs){
+    return !(lhs == rhs);
+}
+
+std::ostream& Time::operator<<(std::ostream& os){
+    os << this->showTimeLT();
+    return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const Time& time){
+    os << time.showTimeLT();
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, Time& time){
+    int hours, minutes, seconds;
+    is >> hours >> minutes >> seconds;
+    time.setSeconds(seconds);
+    time.setMinutes(minutes);
+    time.setHours(hours);
+    // if (/* Time could not be constructed */)
+    //   is.setstate(std::ios::failbit);        Kaip???
+    return is;
+}
+
+Time& Time::operator++(){
+    setSeconds(getSeconds()+1);
+    return *this;
+}
+
+Time Time::operator++(int){
+    Time old = *this;
+    operator++();
+    return old;
+}
+
+Time& Time::operator--(){
+    setSeconds(getSeconds()-1);
+    return *this;
+}
+
+Time Time::operator--(int){
+    Time old = *this;
+    operator--();
+    return old;
 }
 
 Time::Time(){

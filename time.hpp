@@ -27,14 +27,33 @@ class Time{
     void setMinutes(int number);
     void setSeconds(int number);
 
-    int getHours();
-    int getMinutes();
-    int getSeconds();
+    int getHours() const;
+    int getMinutes() const;
+    int getSeconds() const;
 
-    std::string showTimeLT();
-    std::string showTimeUK();
+    std::string showTimeLT() const;
+    std::string showTimeUK() const;
 
     void addSeconds(int number);
+
+    friend Time operator+(const Time& time1, const Time& time2);
+    friend Time operator+(const Time& time, const int& seconds);
+    friend Time operator+(const int& seconds, const Time& time);
+    Time& operator+=(const Time& time);
+    Time& operator+=(const int& seconds);
+    friend bool operator<(const Time& lhs, const Time& rhs);
+    friend bool operator>(const Time& lhs, const Time& rhs);
+    friend bool operator<=(const Time& lhs, const Time& rhs);
+    friend bool operator>=(const Time& lhs, const Time& rhs);
+    friend bool operator==(const Time& lhs, const Time& rhs);
+    friend bool operator!=(const Time& lhs, const Time& rhs);
+    std::ostream& operator<<(std::ostream& os);
+    friend std::ostream& operator<<(std::ostream& os, const Time& time);
+    friend std::istream& operator>>(std::istream& is, Time& time);
+    Time& operator++();
+    Time operator++(int);
+    Time& operator--();
+    Time operator--(int);
 };
 
 #endif

@@ -28,7 +28,7 @@ void EntryRecordContainer::deleteRecord(int position){
     records.erase(records.begin()+(position-1));
 }
 
-int EntryRecordContainer::containerSize(){
+int EntryRecordContainer::containerSize() const{
     return records.size();
 }
 
@@ -50,4 +50,9 @@ void EntryRecordContainer::exportRecords(char* fileName){
         write<<"["<<records.at(i).getPersonId()<<"] "<<records.at(i).getPersonName()<<", login: "<<records.at(i).getPersonTimeOfEntry(LT)<<", logout: "<<records.at(i).getPersonTimeOfExit(LT)<<std::endl;
     }
     write.close();
+}
+
+EntryRecordContainer& EntryRecordContainer::operator+=(const EntryRecordContainer& rhs){
+    for(int i=0; i<rhs.containerSize(); ++i) this->records.push_back(rhs.records.at(i));
+    return *this;
 }

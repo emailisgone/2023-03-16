@@ -17,12 +17,13 @@ class EntryRecordContainer{
     void setEntryRecordContainer(std::vector<EntryRecord> array);
     std::vector<EntryRecord> getEntryRecordContainer();
 
-    void adminPanel();
     void addRecord(EntryRecord record);
     void deleteRecord(int position);
-    int containerSize();
+    int containerSize() const;
     void displayRecords();
     void exportRecords(char* fileName);
+
+    EntryRecordContainer& operator+=(const EntryRecordContainer& rhs);
 };
 
 

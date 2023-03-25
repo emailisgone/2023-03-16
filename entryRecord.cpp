@@ -37,19 +37,19 @@ void EntryRecord::setPersonTimeOfExit(Time time){
     timeOfExit = time;
 }
 
-int EntryRecord::getPersonId(){
+int EntryRecord::getPersonId() const{
     return personID;
 }
 
-std::string EntryRecord::getPersonName(){
+std::string EntryRecord::getPersonName() const{
     return personName;
 }
 
-bool EntryRecord::getPersonAdminPermission(){
+bool EntryRecord::getPersonAdminPermission() const{
     return adminPermission;
 }
 
-std::string EntryRecord::getPersonTimeOfEntry(timeFormat format){
+std::string EntryRecord::getPersonTimeOfEntry(timeFormat format) const{
     switch(format){
     case LT:
         return timeOfEntry.showTimeLT();
@@ -63,7 +63,7 @@ std::string EntryRecord::getPersonTimeOfEntry(timeFormat format){
     }
 }
 
-std::string EntryRecord::getPersonTimeOfExit(timeFormat format){
+std::string EntryRecord::getPersonTimeOfExit(timeFormat format) const{
     switch(format){
     case UK:
         return timeOfExit.showTimeUK();
@@ -98,5 +98,13 @@ std::string EntryRecord::workTime(timeFormat format){
 }
 
 void EntryRecord::pushTimeOfEntry(int seconds){
-    timeOfEntry.addSeconds(seconds);
+    timeOfEntry+=seconds;
+}
+
+void EntryRecord::pushTimeOfExit(int seconds){
+    timeOfExit+=seconds;
+}
+
+std::ostream& operator<<(std::ostream& os, const EntryRecord& record){
+    os<<"["<<record.getPersonId()<<"] "<<record.getPersonName()<<", login: "<<record.getPersonTimeOfEntry(LT)<<", logout: "<<record.getPersonTimeOfExit(LT)<<std::endl;
 }
