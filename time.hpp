@@ -23,18 +23,19 @@ class Time{
     Time(int hr, int min, int sec);
     ~Time();
 
-    void setHours(int number);
-    void setMinutes(int number);
-    void setSeconds(int number);
+    inline void setHours(int number);
+    inline void setMinutes(int number);
+    inline void setSeconds(int number);
 
-    int getHours() const;
-    int getMinutes() const;
-    int getSeconds() const;
+    inline int getHours() const;
+    inline int getMinutes() const;
+    inline int getSeconds() const;
 
     std::string showTimeLT() const;
     std::string showTimeUK() const;
 
     void addSeconds(int number);
+    void reduceSeconds(int number);
 
     friend Time operator+(const Time& time1, const Time& time2);
     friend Time operator+(const Time& time, const int& seconds);
