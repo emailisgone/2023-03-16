@@ -175,13 +175,21 @@ std::ostream& operator<<(std::ostream& os, const Time& time){
 }
 
 std::istream& operator>>(std::istream& is, Time& time){
+    std::string input;
+    std::getline(is, input);
     int hours, minutes, seconds;
-    is >> hours >> minutes >> seconds; // LT format
+    char colon1, colon2;
+
+    std::istringstream iss(input);
+    iss >> hours >> colon1 >> minutes >> colon2 >> seconds; // LT format
+
+    if(iss.fail() || colon1!=':' || colon2!=':')
+        throw std::invalid_argument("Invalid time format. Expected hh:mm:ss.");
+
     time.setSeconds(seconds);
     time.setMinutes(minutes);
     time.setHours(hours);
-    // if ( )
-    //   is.setstate(std::ios::failbit);        // validate hours/minutes/seconds   
+    
     return is;
 }
 

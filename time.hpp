@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <sstream>
 
 enum timeFormat{
     LT,
