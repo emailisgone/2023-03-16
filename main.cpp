@@ -46,10 +46,13 @@ int main(){
     cont1+=cont2;
     cont1.displayRecords();*/
 
-    Time a(5,0,0), b(7,0,0);
+    /*Time a(5,0,0), b(7,0,0);
     Time c = a+b;
     std::cout<<c<<std::endl;
     c+=-46800;
+    std::cout<<c;*/
+    Time c;
+    std::cin>>c;
     std::cout<<c;
 
 
